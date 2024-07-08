@@ -36,12 +36,10 @@ class _MainBodyPageState extends State<MainBodyPage> {
   }
 
   void _validatepass() {
-    if (passcontroller.text != "" &&
-        passcontroller.text == repasscontroller.text) {
-      setState(() {
-        isSuccess = !isSuccess;
-      });
-    }
+    setState(() {
+      isSuccess = passcontroller.text.isNotEmpty &&
+          passcontroller.text == repasscontroller.text;
+    });
   }
 
   @override
@@ -51,7 +49,12 @@ class _MainBodyPageState extends State<MainBodyPage> {
     return Scaffold(
       floatingActionButton: isSuccess
           ? FloatingActionButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const DonePage()),
+                );
+              },
               child: const Icon(Icons.arrow_right_alt),
             )
           : null,
@@ -91,13 +94,14 @@ class _MainBodyPageState extends State<MainBodyPage> {
                           height: screenHeight * 0.2,
                           minLength: 8,
                           onSuccess: () {
-                            setState(() {
-                              // isSuccess = true;/
-                            });
+                            // // initState();
+                            // passcontroller.addListener(_validatepass);
+                            // repasscontroller.addListener(_validatepass);
+                            // isSuccess = true;
                           },
                           onFail: () {
                             setState(() {
-                              // isSuccess = false;
+                              isSuccess = false;
                             });
                           },
                           controller: passcontroller),
@@ -171,4 +175,22 @@ Container myTextField(
       ),
     ),
   );
+}
+
+class DonePage extends StatelessWidget {
+  const DonePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Success'),
+      ),
+      body: Center(
+        child: Lottie.network(
+            width: MediaQuery.of(context).size.width * 0.5,
+            'https://lottie.host/c1b5cf1e-c696-476f-bb90-94c6a8aeae49/nbPPsIFDAk.json'),
+      ),
+    );
+  }
 }
