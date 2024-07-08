@@ -35,16 +35,11 @@ class _MainBodyPageState extends State<MainBodyPage> {
     });
   }
 
-  Future<void> _validatepass() async {
-    if (passcontroller.text != "" &&
-        passcontroller.text == repasscontroller.text) {
-      setState(() {
-        isSuccess = true;
-      });
-    } else {
-      isSuccess = false;
-    }
-    await isSuccess;
+  void _validatepass() {
+    setState(() {
+      isSuccess = passcontroller.text.isNotEmpty &&
+          passcontroller.text == repasscontroller.text;
+    });
   }
 
   @override
@@ -99,13 +94,14 @@ class _MainBodyPageState extends State<MainBodyPage> {
                           height: screenHeight * 0.2,
                           minLength: 8,
                           onSuccess: () {
-                            setState(() {
-                              // isSuccess = true;/
-                            });
+                            // // initState();
+                            // passcontroller.addListener(_validatepass);
+                            // repasscontroller.addListener(_validatepass);
+                            // isSuccess = true;
                           },
                           onFail: () {
                             setState(() {
-                              // isSuccess = false;
+                              isSuccess = false;
                             });
                           },
                           controller: passcontroller),
